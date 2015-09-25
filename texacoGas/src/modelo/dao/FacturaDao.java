@@ -191,11 +191,23 @@ public class FacturaDao {
 				+ "usuario,"
 				+ "total_letras,"
 				+ "codigo_vendedor,"
-				+ "estado_pago)"
-				+ " VALUES (now(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "estado_pago, "
+				+ "vehiculo_placa, "
+				+ "vehiculo_modelo, "
+				+ "vehiculo_kilometraje)"
+				+ " VALUES (now(),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		try 
 		{
+			
+			String nombreCliente=myFactura.getCliente().getNombre();//"Consumidor final";
+			
+			//si el cliente en escrito por el bombero
+			if(myFactura.getCliente().getId()<0){
+				myClienteDao.registrarCliente(myFactura.getCliente());
+				myFactura.getCliente().setId(myClienteDao.getIdClienteRegistrado());
+			}
+			
 			conn=Conexion.getPoolConexion().getConnection();
 			agregarFactura=conn.prepareStatement(sql);
 			agregarFactura.setBigDecimal(1,myFactura.getSubTotal() );
@@ -213,6 +225,9 @@ public class FacturaDao {
 			agregarFactura.setString(13, NumberToLetterConverter.convertNumberToLetter(myFactura.getTotal().setScale(0, BigDecimal.ROUND_HALF_EVEN).doubleValue()));
 			agregarFactura.setInt(14, myFactura.getVendedor().getCodigo());
 			agregarFactura.setInt(15,myFactura.getEstadoPago());
+			agregarFactura.setString(16,myFactura.getPlacaVehiculo());
+			agregarFactura.setString(17,myFactura.getModeloVehiculo());
+			agregarFactura.setString(18,myFactura.getKilometrajeVehiculo());
 			
 			
 			
@@ -382,7 +397,7 @@ public class FacturaDao {
 				+ "encabezado_factura.usuario,"
 				+ "encabezado_factura.estado_factura, "
 				+ "encabezado_factura.agrega_kardex "
-				+ " FROM encabezado_factura";
+				+ " FROM encabezado_factura ORDER BY encabezado_factura.numero_factura DESC";
         //Statement stmt = null;
        	List<Factura> facturas=new ArrayList<Factura>();
 		

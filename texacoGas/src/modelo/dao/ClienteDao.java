@@ -317,13 +317,14 @@ public class ClienteDao {
 		
 		try {
 			conn=conexion.getPoolConexion().getConnection();
-			actualizarCliente=conn.prepareStatement("UPDATE cliente SET nombre_cliente = ?, direccion = ? ,telefono = ?, movil=?, rtn=? WHERE codigo_cliente = ?");
+			actualizarCliente=conn.prepareStatement("UPDATE cliente SET nombre_cliente = ?, direccion = ? ,telefono = ?, movil=?, rtn=?,limite_credito=? WHERE codigo_cliente = ?");
 			actualizarCliente.setString(1,cliente.getNombre());
 			actualizarCliente.setString(2, cliente.getDereccion());
 			actualizarCliente.setString(3, cliente.getTelefono());
 			actualizarCliente.setString(4, cliente.getCelular());
 			actualizarCliente.setString(5,cliente.getRtn());
-			actualizarCliente.setInt(6,cliente.getId());
+			actualizarCliente.setBigDecimal(6, cliente.getLimiteCredito());
+			actualizarCliente.setInt(7,cliente.getId());
 			
 			resultado=actualizarCliente.executeUpdate();
 			//JOptionPane.showMessageDialog(null, a+","+resultado );
@@ -362,13 +363,14 @@ public class ClienteDao {
 		{
 			con = conexion.getPoolConexion().getConnection();
 			
-			insertarNuevaCliente=con.prepareStatement( "INSERT INTO cliente(nombre_cliente,direccion,telefono,movil,rtn) VALUES (?,?,?,?,?)");
+			insertarNuevaCliente=con.prepareStatement( "INSERT INTO cliente(nombre_cliente,direccion,telefono,movil,rtn,limite_credito) VALUES (?,?,?,?,?,?)");
 			
 			insertarNuevaCliente.setString( 1, myCliente.getNombre() );
 			insertarNuevaCliente.setString( 2, myCliente.getDereccion() );
 			insertarNuevaCliente.setString( 3, myCliente.getTelefono());
 			insertarNuevaCliente.setString(4, myCliente.getCelular());
 			insertarNuevaCliente.setString(5, myCliente.getRtn());
+			insertarNuevaCliente.setBigDecimal(6, myCliente.getLimiteCredito());
 			
 			resultado=insertarNuevaCliente.executeUpdate();
 			

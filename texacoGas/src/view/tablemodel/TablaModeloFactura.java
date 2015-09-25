@@ -131,7 +131,8 @@ public class TablaModeloFactura extends AbstractTableModel {
 		case 1:
 			return detallesFactura.get(rowIndex).getArticulo().getArticulo();
 		case 2:
-		 return detallesFactura.get(rowIndex).getArticulo().getPrecioVenta();
+			BigDecimal precio=new BigDecimal(detallesFactura.get(rowIndex).getArticulo().getPrecioVenta());
+		 return precio.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		case 3:
 			if(detallesFactura.get(rowIndex).getCantidad().doubleValue()!=0){
 				return detallesFactura.get(rowIndex).getCantidad().setScale(2, BigDecimal.ROUND_HALF_EVEN);
@@ -140,18 +141,20 @@ public class TablaModeloFactura extends AbstractTableModel {
 		
 		case 4:
 			//salida=detallesFactura.get(rowIndex).getSubTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
-			return  detallesFactura.get(rowIndex).getSubTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+			return  detallesFactura.get(rowIndex).getSubTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		case 5:
 			//salida=detallesFactura.get(rowIndex).getImpuesto().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
-			return  detallesFactura.get(rowIndex).getImpuesto().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+			return  detallesFactura.get(rowIndex).getImpuesto().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 		case 6:
 			if(detallesFactura.get(rowIndex).getDescuentoItem().doubleValue()!=0)
 				return detallesFactura.get(rowIndex).getDescuentoItem().setScale(0, BigDecimal.ROUND_HALF_EVEN).doubleValue();
 			else
 				return null;
 		case 7:
-			//salida=detallesFactura.get(rowIndex).getTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
-			return  detallesFactura.get(rowIndex).getTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+			if(detallesFactura.get(rowIndex).getTotal().doubleValue()!=0)
+				return  detallesFactura.get(rowIndex).getTotal().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue();
+			else
+				return null;
 		 default:
 	            return null;
 		}
@@ -192,6 +195,10 @@ public class TablaModeloFactura extends AbstractTableModel {
 			fireTableCellUpdated(rowIndex, columnIndex);
 			
 			break;
+		case 7:
+			detallesFactura.get(rowIndex).setTotal(new BigDecimal(v));
+			fireTableCellUpdated(rowIndex, columnIndex);
+			break;
 	}
 	}
 	
@@ -207,10 +214,10 @@ public class TablaModeloFactura extends AbstractTableModel {
 		if(columnIndex==0)
 			resul= true;
 		
+		if(columnIndex==7)
+			resul=true;
 		if(columnIndex==3)
 			resul=true;
-		/*if(columnIndex==6)
-			resul=true;*/
 	
 		
 		

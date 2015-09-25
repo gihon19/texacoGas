@@ -24,6 +24,8 @@ import view.botones.BotonAgregar;
 import view.botones.BotonBuscar;
 import view.botones.BotonEliminar;
 import view.botones.BotonLimpiar;
+import view.rendes.RtClientes;
+import view.rendes.TablaRenderizadorProveedor;
 import view.tablemodel.TablaModeloCliente;
 import controlador.CtlClienteBuscar;
 import controlador.CtlClienteLista;
@@ -117,13 +119,15 @@ public class ViewListaClientes extends JDialog {
 		modelo=new TablaModeloCliente();
 		tablaClientes=new JTable();
 		tablaClientes.setModel(modelo);
-		//TablaRenderizadorProveedor renderizador = new TablaRenderizadorProveedor();
-		//tablaClientes.setDefaultRenderer(String.class, renderizador);
+		
+		RtClientes renderizador = new RtClientes();
+		tablaClientes.setDefaultRenderer(String.class, renderizador);
 		
 		tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(5);     //Tamaño de las columnas de las tablas
 		tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(200);	//
 		tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(100);	//
 		tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(10);	//
+		tablaClientes.setRowHeight(20);
 		
 		JScrollPane scrollPane = new JScrollPane(tablaClientes);
 		scrollPane.setBounds(36, 97, 742, 136);

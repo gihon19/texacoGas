@@ -19,11 +19,12 @@ public class ViewCrearCliente extends JDialog{
 	private BotonCancelar btnCancelar;
 	private BotonActualizar btnActualizar;
 	private BotonGuardar btnGuardar;
+	private JTextField txtLimitecredito;
 	
 	public ViewCrearCliente() {
 		setTitle("Crear Cliente");
 		
-		this.setSize(451,333);
+		this.setSize(451,359);
 		getContentPane().setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
@@ -31,7 +32,7 @@ public class ViewCrearCliente extends JDialog{
 		getContentPane().add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(91, 8, 311, 20);
+		txtNombre.setBounds(116, 8, 286, 20);
 		getContentPane().add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -40,7 +41,7 @@ public class ViewCrearCliente extends JDialog{
 		getContentPane().add(lblDireccion);
 		
 		txtDireccion = new JTextField();
-		txtDireccion.setBounds(91, 48, 311, 20);
+		txtDireccion.setBounds(116, 48, 286, 20);
 		getContentPane().add(txtDireccion);
 		txtDireccion.setColumns(10);
 		
@@ -49,7 +50,7 @@ public class ViewCrearCliente extends JDialog{
 		getContentPane().add(lblTelefono);
 		
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(91, 91, 311, 20);
+		txtTelefono.setBounds(116, 91, 286, 20);
 		getContentPane().add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
@@ -58,7 +59,7 @@ public class ViewCrearCliente extends JDialog{
 		getContentPane().add(lblMovil);
 		
 		txtMovil = new JTextField();
-		txtMovil.setBounds(91, 128, 311, 20);
+		txtMovil.setBounds(116, 128, 286, 20);
 		getContentPane().add(txtMovil);
 		txtMovil.setColumns(10);
 		
@@ -67,25 +68,38 @@ public class ViewCrearCliente extends JDialog{
 		getContentPane().add(lblRtn);
 		
 		txtRtn = new JTextField();
-		txtRtn.setBounds(91, 172, 311, 20);
+		txtRtn.setBounds(116, 172, 286, 20);
 		getContentPane().add(txtRtn);
 		txtRtn.setColumns(10);
 		
 		// botones de accion
 		btnCancelar = new BotonCancelar();
-		btnCancelar.setLocation(280, 231);
+		btnCancelar.setLocation(280, 264);
 		getContentPane().add(btnCancelar);
 		
 		btnGuardar = new BotonGuardar();	
-		btnGuardar.setLocation(52, 231);
+		btnGuardar.setLocation(52, 264);
 		getContentPane().add(btnGuardar);
 		
 		btnActualizar=new BotonActualizar();
-		btnActualizar.setLocation(52, 231);
+		btnActualizar.setLocation(52, 264);
 		btnActualizar.setVisible(false);
 		getContentPane().add(btnActualizar);
 		
+		JLabel lblLimiteCredito = new JLabel("Limite Credito:");
+		lblLimiteCredito.setBounds(21, 208, 84, 14);
+		getContentPane().add(lblLimiteCredito);
 		
+		txtLimitecredito = new JTextField();
+		txtLimitecredito.setEnabled(false);
+		txtLimitecredito.setBounds(116, 205, 286, 20);
+		getContentPane().add(txtLimitecredito);
+		txtLimitecredito.setColumns(10);
+		
+		
+	}
+	public JTextField getTxtLimitecredito(){
+		return txtLimitecredito;
 	}
 	public JTextField getTxtNombre(){
 		return txtNombre;

@@ -11,12 +11,15 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import modelo.Articulo;
+import modelo.Cliente;
 import modelo.Conexion;
 import modelo.Empleado;
 
 public class EmpleadoDao {
 	
 	private PreparedStatement seleccionarTodos=null;
+	
+	private PreparedStatement buscar=null;
 	private Conexion conexion=null;
 
 	public EmpleadoDao(Conexion conn) {
@@ -90,6 +93,74 @@ public class EmpleadoDao {
 			}
 			else return null;
 		
+	}
+
+	public Empleado buscarPorId(int id) {
+		// TODO Auto-generated method stub
+		
+		Empleado myEmpleado=new Empleado();
+		
+		
+		String sql="SELECT "
+				+ "codigo_empleado, "
+				+ "nombre,"
+				+ " apellido, "
+				+ "telefono, "
+				+ "correo, "
+				+ "direccion,"
+				+ "sueldo_base, "
+				+ "codigo_tipo_empleado "
+				+ "FROM empleados where codigo_empleado=?";
+		ResultSet res=null;
+		boolean existe=false;
+		Connection con = null;
+		try {
+			con = Conexion.getPoolConexion().getConnection();
+			
+			buscar = con.prepareStatement(sql);
+			buscar.setInt(1, id);
+			
+			res = buscar.executeQuery();
+			while(res.next()){
+				
+				existe=true;
+				myEmpleado.setCodigo(res.getInt("codigo_empleado"));
+				myEmpleado.setNombre(res.getString("nombre"));
+				myEmpleado.setApellido(res.getString("apellido"));
+				myEmpleado.setTelefono(res.getString("telefono"));
+				myEmpleado.setCorreo(res.getString("correo"));
+				myEmpleado.setDireccion(res.getString("direccion"));
+				myEmpleado.setSueldoBase(res.getBigDecimal("sueldo_base"));
+				
+				
+			
+			 }
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		finally
+		{
+			try{
+				
+				if(res != null) res.close();
+                if(buscar != null)buscar.close();
+                if(con != null) con.close();
+                
+				
+				} // fin de try
+				catch ( SQLException excepcionSql )
+				{
+					excepcionSql.printStackTrace();
+					//conexion.desconectar();
+				} // fin de catch
+		} // fin de finally
+		
+		
+			if (existe) {
+				return myEmpleado;
+			}
+			else return null;
 	}
 
 }

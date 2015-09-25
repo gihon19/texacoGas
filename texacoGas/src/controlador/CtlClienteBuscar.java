@@ -27,8 +27,13 @@ public class CtlClienteBuscar implements ActionListener ,MouseListener, WindowLi
 	
 	private ClienteDao clienteDao=null;
 	private Cliente myCliente=null;
+	private boolean resultado=false;
 	//fila selecciona enla lista
 	private int filaPulsada;
+	
+	public Cliente getCliente(){
+		return myCliente;
+	}
 	
 	public CtlClienteBuscar(ViewListaClientes v, Conexion conn){
 		conexion=conn;
@@ -48,7 +53,7 @@ public class CtlClienteBuscar implements ActionListener ,MouseListener, WindowLi
 		}
 	}
 	
-public Cliente buscarCliente(Window v){
+public boolean buscarCliente(Window v){
 		
 		//this.myArticuloDao.cargarInstrucciones();
 		cargarTabla(clienteDao.todoClientes());
@@ -57,7 +62,7 @@ public Cliente buscarCliente(Window v){
 		this.view.setLocationRelativeTo(v);
 		this.view.setModal(true);
 		this.view.setVisible(true);
-		return this.myCliente;
+		return this.resultado;
 	}
 
 	@Override
@@ -126,6 +131,7 @@ public Cliente buscarCliente(Window v){
 		if (e.getClickCount() == 2){
 			myCliente=this.view.getModelo().getCliente(filaPulsada);
 			//clienteDao.desconectarBD();
+			this.resultado=true;
 			this.view.setVisible(false);
 			//JOptionPane.showMessageDialog(null,myMarca);
 			this.view.dispose();
@@ -166,7 +172,7 @@ public Cliente buscarCliente(Window v){
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		
+		this.view.setVisible(false);
 	}
 
 	@Override

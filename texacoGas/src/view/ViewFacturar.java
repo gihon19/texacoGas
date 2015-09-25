@@ -57,6 +57,7 @@ public class ViewFacturar extends JDialog {
 	
 	private JPanel panelAcciones;
 	private JPanel panelBuscar;
+	private JPanel panelBuscar2;
 	private JPanel panelDatosFactura;
 	private JLabel lblFecha;
 	private JTextField txtFechafactura;
@@ -99,6 +100,11 @@ public class ViewFacturar extends JDialog {
 	private JComboBox cbxEmpleados;
 	//se crea el modelo de la lista de los impuestos
 	private CbxTmEmpleado modeloEmpleado;//=new ComboBoxImpuesto();
+	private JTextField txtModelo;
+	private JTextField txtNoplaca;
+	private JTextField txtKilometraje;
+	private JLabel lblRtn;
+	private JTextField txtRtn;
 	
 	public ViewFacturar(Window view) {
 		
@@ -157,11 +163,13 @@ public class ViewFacturar extends JDialog {
 		btnCierreCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCierreCaja.setIcon(new ImageIcon(ViewFacturar.class.getResource("/view/recursos/caja.png")));
 		btnCierreCaja.setBounds(10, 334, 158, 38);
+		btnCierreCaja.setEnabled(false);
 		panelAcciones.add(btnCierreCaja);
 		
 		btnPendientes = new JButton("F5 Pendientes");
 		btnPendientes.setIcon(new ImageIcon(ViewFacturar.class.getResource("/view/recursos/lista.png")));
 		btnPendientes.setHorizontalAlignment(SwingConstants.LEFT);
+		btnPendientes.setEnabled(false);
 		btnPendientes.setBounds(10, 272, 158, 38);
 		panelAcciones.add(btnPendientes);
 		
@@ -178,8 +186,45 @@ public class ViewFacturar extends JDialog {
 		panelBuscar.setBorder(new TitledBorder(new LineBorder(new Color(130, 135, 144)), "Buscar Articulo", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelBuscar.setBounds(196, 94, 802, 50);
 		panelBuscar.setLayout(null);
+		panelBuscar.setVisible(false);
 		//getContentPane().geti
 		getContentPane().add(panelBuscar);
+		
+		panelBuscar2= new JPanel();
+		panelBuscar2.setBorder(new TitledBorder(new LineBorder(new Color(130, 135, 144)), "Detalles Vehiculo", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelBuscar2.setBounds(196, 94, 802, 50);
+		panelBuscar2.setLayout(null);
+		//panelBuscar2.setVisible(false);
+		//panelBuscar2.setVisible(false);
+		//getContentPane().geti
+		getContentPane().add(panelBuscar2);
+		
+		JLabel lblModelo = new JLabel("Modelo:");
+		lblModelo.setBounds(157, 9, 74, 14);
+		panelBuscar2.add(lblModelo);
+		
+		txtModelo = new JTextField();
+		txtModelo.setBounds(157, 24, 118, 20);
+		panelBuscar2.add(txtModelo);
+		txtModelo.setColumns(10);
+		
+		JLabel lblPlacaNo = new JLabel("Placa No");
+		lblPlacaNo.setBounds(305, 9, 74, 14);
+		panelBuscar2.add(lblPlacaNo);
+		
+		txtNoplaca = new JTextField();
+		txtNoplaca.setBounds(304, 24, 86, 20);
+		panelBuscar2.add(txtNoplaca);
+		txtNoplaca.setColumns(10);
+		
+		JLabel lblKilometraje = new JLabel("Kilometraje");
+		lblKilometraje.setBounds(430, 9, 86, 14);
+		panelBuscar2.add(lblKilometraje);
+		
+		txtKilometraje = new JTextField();
+		txtKilometraje.setBounds(430, 24, 118, 20);
+		panelBuscar2.add(txtKilometraje);
+		txtKilometraje.setColumns(10);
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setBounds(10, 19, 208, 20);
@@ -217,60 +262,72 @@ public class ViewFacturar extends JDialog {
 		
 		txtFechafactura = new JTextField();
 		txtFechafactura.setEditable(false);
-		txtFechafactura.setBounds(20, 44, 104, 29);
+		txtFechafactura.setBounds(20, 44, 86, 29);
 		panelDatosFactura.add(txtFechafactura);
 		txtFechafactura.setColumns(10);
 		
 		lblCodigoCliente = new JLabel("Id Cliente");
-		lblCodigoCliente.setBounds(156, 23, 61, 14);
+		lblCodigoCliente.setBounds(116, 23, 61, 14);
 		panelDatosFactura.add(lblCodigoCliente);
 		
 		txtIdcliente = new JTextField();
-		txtIdcliente.setBounds(156, 44, 67, 29);
+		txtIdcliente.setBounds(116, 44, 61, 29);
 		panelDatosFactura.add(txtIdcliente);
 		txtIdcliente.setColumns(10);
 		
 		txtNombrecliente = new JTextField();
 		txtNombrecliente.setToolTipText("Nombre Cliente");
-		txtNombrecliente.setBounds(233, 44, 214, 29);
+		txtNombrecliente.setBounds(187, 44, 214, 29);
 		panelDatosFactura.add(txtNombrecliente);
 		txtNombrecliente.setColumns(10);
 		
 		grupoOpciones = new ButtonGroup();
 		rdbtnCredito = new JRadioButton("");
 		//rdbtnCredito.setEnabled(false);// para descativar los creditos
-		rdbtnCredito.setBounds(526, 47, 21, 23);
+		rdbtnCredito.setBounds(731, 47, 21, 23);
 		grupoOpciones.add(rdbtnCredito);
 		panelDatosFactura.add(rdbtnCredito);
 		
 		rdbtnContado = new JRadioButton("");
 		rdbtnContado.setVerticalAlignment(SwingConstants.TOP);
 		rdbtnContado.setSelected(true);
-		rdbtnContado.setBounds(468, 47, 21, 23);
+		rdbtnContado.setBounds(654, 47, 21, 23);
 		grupoOpciones.add(rdbtnContado);
 		panelDatosFactura.add(rdbtnContado);
 		
 		lblNombreCliente = new JLabel("Nombre Cliente");
-		lblNombreCliente.setBounds(233, 23, 104, 14);
+		lblNombreCliente.setBounds(187, 23, 104, 14);
 		panelDatosFactura.add(lblNombreCliente);
 		
 		lblContado = new JLabel("Contado");
-		lblContado.setBounds(454, 23, 49, 14);
+		lblContado.setBounds(640, 23, 49, 14);
 		panelDatosFactura.add(lblContado);
 		
 		lblCredito = new JLabel("Credito");
-		lblCredito.setBounds(513, 23, 46, 14);
+		lblCredito.setBounds(718, 23, 46, 14);
 		panelDatosFactura.add(lblCredito);
 		
 		JLabel lblVendedor = new JLabel("Vendedor");
 		lblVendedor.setBounds(581, 23, 61, 14);
 		panelDatosFactura.add(lblVendedor);
+		lblVendedor.setVisible(false);
 		
 		cbxEmpleados = new JComboBox();
 		this.modeloEmpleado=new CbxTmEmpleado();
 		cbxEmpleados.setModel(modeloEmpleado);//comentar para moder ver la vista de diseño
 		cbxEmpleados.setBounds(581, 48, 199, 20);
+		cbxEmpleados.setVisible(false);
 		panelDatosFactura.add(cbxEmpleados);
+		
+		lblRtn = new JLabel("R:T:N");
+		lblRtn.setBounds(422, 23, 112, 14);
+		panelDatosFactura.add(lblRtn);
+		
+		txtRtn = new JTextField();
+		txtRtn.setBounds(419, 44, 177, 29);
+		panelDatosFactura.add(txtRtn);
+		txtRtn.setColumns(10);
+		
 		
 		
 		tableDetalle = new JTable();
@@ -432,6 +489,21 @@ public class ViewFacturar extends JDialog {
 	public JTextField getTxtNombrecliente(){
 		return txtNombrecliente;
 	}
+	public JTextField getTxtNoplaca(){
+		return this.txtNoplaca;
+	}
+	public JTextField getTxtModelo(){
+		return this.txtModelo;
+	}
+	
+	public JTextField getTxtRtn(){
+		return txtRtn;
+	}
+	
+	
+	public JTextField getTxtKilometraje(){
+		return this.txtKilometraje;
+	}
 	public JTextField getTxtIdcliente(){
 		return txtIdcliente;
 	}
@@ -453,7 +525,19 @@ public class ViewFacturar extends JDialog {
 	public JTextField getTxtFechafactura(){
 		return txtFechafactura;
 	}
+	public JPanel getPanelDetalleVehiculo(){
+		return this.panelBuscar2;
+	}
 	public void conectarContralador(CtlFacturar c){
+		
+		
+		
+		
+		rdbtnContado.addActionListener(c);
+		rdbtnContado.setActionCommand("CONTADO");
+		
+		rdbtnCredito.addActionListener(c);
+		rdbtnCredito.setActionCommand("CREDITO");
 		
 		txtIdcliente.addActionListener(c);
 		txtIdcliente.setActionCommand("BUSCARCLIENTE");
@@ -461,11 +545,10 @@ public class ViewFacturar extends JDialog {
 		tableDetalle.addKeyListener(c);
 		tableDetalle.addMouseListener(c);
 		modeloTabla.addTableModelListener(c);
-		//tableDetalle.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		tableDetalle.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		tableDetalle.setColumnSelectionAllowed(true);
 		tableDetalle.setRowSelectionAllowed(true);
-		tableDetalle.setCellSelectionEnabled(true);
 		
 		txtIdcliente.addKeyListener(c);
 		txtNombrecliente.addKeyListener(c);

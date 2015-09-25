@@ -1,5 +1,6 @@
 package modelo.dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Conexion;
 import modelo.Factura;
+import modelo.NumberToLetterConverter;
 import modelo.Usuario;
 
 public class UsuarioDao {
@@ -23,6 +25,10 @@ public class UsuarioDao {
 	//private PreparedStatement seleccionarFacturas=null;
 	//private PreparedStatement elimiarTem = null;
 	private PreparedStatement comprobarAdmin = null;
+	private PreparedStatement insertar = null;
+	private PreparedStatement setEventON = null;
+	
+	public int idUsuarioGuardado=0;
 	
 	//private DetalleFacturaDao detallesDao=null;
 	
@@ -100,6 +106,8 @@ public class UsuarioDao {
 			buscarUser=conn.prepareStatement("SELECT usuario, nombre_completo, clave, permiso,tipo_permiso FROM usuario WHERE usuario = ? AND clave = ?");
 			buscarUser.setString(1, user.getUser());
 			buscarUser.setString(2, user.getPwd());
+			
+			
 			res = buscarUser.executeQuery();
 			while(res.next()){
 				existe=true;
@@ -112,7 +120,10 @@ public class UsuarioDao {
 				
 				
 			 }
-			conexion.setUsuarioLogin(unUsuario);		
+			conexion.setUsuarioLogin(unUsuario);
+			
+			setEventON=conn.prepareStatement("SET GLOBAL event_scheduler=on;");
+			setEventON.executeQuery();
 					
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -122,6 +133,7 @@ public class UsuarioDao {
 				try{
 					if(res != null) res.close();
 	                if(buscarUser != null)buscarUser.close();
+	                if(setEventON != null)setEventON.close();
 	                if(conn != null) conn.close();
 				} // fin de try
 				catch ( SQLException excepcionSql )
@@ -138,6 +150,75 @@ public class UsuarioDao {
 		
 		
 		
+	}
+	
+	
+	/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Metodo para agreagar usuario>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	public boolean registrar(Usuario myUsuario){
+		boolean resultado=false;
+		ResultSet rs=null;
+		
+		Connection conn=null;
+		//int idFactura=0;
+		
+		String sql= "INSERT INTO usuario("
+				+ "usuario,"
+				+ "nombre_completo,"
+				+ "clave,"
+				+ "permiso,"
+				+ "tipo_permiso)"
+				+ " VALUES (?,?,?,?,?)";
+		
+		try 
+		{
+			
+						
+			conn=Conexion.getPoolConexion().getConnection();
+			insertar=conn.prepareStatement(sql);
+			insertar.setString(1,myUsuario.getUser() );
+			insertar.setString(2, myUsuario.getNombre());
+			insertar.setString(3, myUsuario.getPwd());
+			insertar.setString(4, myUsuario.getPermiso());
+			insertar.setInt(5, myUsuario.getTipoPermiso());
+			
+			
+			
+			
+			
+			insertar.executeUpdate();//se guarda el encabezado de la factura
+			rs=insertar.getGeneratedKeys(); //obtengo las ultimas llaves generadas
+			while(rs.next()){
+				//idFactura=rs.getInt(1);
+				idUsuarioGuardado=rs.getInt(1);
+				
+			}
+			
+					
+			resultado= true;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			//conexion.desconectar();
+			resultado= false;
+		}
+		finally
+		{
+			try{
+				if(rs != null) rs.close();
+	            if(insertar != null)insertar.close();
+	            if(conn != null) conn.close();
+			} // fin de try
+			catch ( SQLException excepcionSql )
+			{
+				excepcionSql.printStackTrace();
+				//conexion.desconectar();
+			} // fin de catch
+		} // fin de finally
+		
+		
+		
+		
+		return resultado;
 	}
 
 }

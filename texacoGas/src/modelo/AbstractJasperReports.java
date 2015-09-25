@@ -1,6 +1,7 @@
 package modelo;
 
 import java.awt.Dialog;
+import java.awt.Image;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -27,10 +28,12 @@ import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
 import javax.print.attribute.standard.PrinterName;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import view.botones.BotonCancelar;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
@@ -56,21 +59,24 @@ public abstract class AbstractJasperReports
 	private static InputStream facturaReimpresion=null;
 	private static InputStream cierreCaja=null;
 	private static InputStream reciboPago=null;
+	private static InputStream facturaCredito=null;
 	
 	private static JasperReport	reportFactura;
 	private static JasperReport	reportFacturaCompra;
 	private static JasperReport	reportFacturaReimpresion;
 	private static JasperReport	reportFacturaCierreCaja;
 	private static JasperReport	reportReciboPago;
+	private static JasperReport	reportFacturaCredito;
 	
 	
 	public static void loadFileReport(){
 		
-		factura=AbstractJasperReports.class.getResourceAsStream("/reportes/factura_texaco2.jasper");
+		factura=AbstractJasperReports.class.getResourceAsStream("/reportes/factura_texaco_gas.jasper");
 		facturaCompra=AbstractJasperReports.class.getResourceAsStream("/reportes/Factura_Compra_Saint_Paul.jasper");
 		facturaReimpresion=AbstractJasperReports.class.getResourceAsStream("/reportes/factura_texaco_reimpresion2.jasper");
 		cierreCaja=AbstractJasperReports.class.getResourceAsStream("/reportes/Cierre_Caja_Texaco2.jasper");
 		reciboPago=AbstractJasperReports.class.getResourceAsStream("/reportes/recibo_pago.jasper");
+		facturaCredito=AbstractJasperReports.class.getResourceAsStream("/reportes/factura_credito_texaco.jasper");
 		
 		
 		try {
@@ -79,6 +85,7 @@ public abstract class AbstractJasperReports
 			reportFacturaReimpresion= (JasperReport) JRLoader.loadObject( facturaReimpresion );
 			reportFacturaCierreCaja= (JasperReport) JRLoader.loadObject( cierreCaja );
 			reportReciboPago= (JasperReport) JRLoader.loadObject( reciboPago );
+			reportFacturaCredito=(JasperReport) JRLoader.loadObject( facturaCredito );
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,6 +114,12 @@ public abstract class AbstractJasperReports
 			}
 			if(tipoReporte==5){
 				reportFilled = JasperFillManager.fillReport( reportReciboPago, parametros, conn );
+			}
+			if(tipoReporte==6){
+				/*ImageIcon imgGuardar=new ImageIcon(BotonCancelar.class.getResource("/reportes/texaco_logo.gif"));
+				Image image = imgGuardar.getImage();
+				 parametros.put("url_logo",image);*/
+				reportFilled = JasperFillManager.fillReport( reportFacturaCredito, parametros, conn );
 			}
 			
 			
@@ -230,6 +243,68 @@ public abstract class AbstractJasperReports
 
 
 		        AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\TEXACO-PC\\EPSON L210 Series", null));
+		        
+		        //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\CONTABILIDAD-PC\\EPSON LX-300+ /II (Copiar 1)", null));
+
+
+		        PrintService[] printService = PrintServiceLookup.lookupPrintServices(null, attributeSet);
+
+		        try {
+		            printerJob.setPrintService(printService[selectedService]);
+
+		        } catch (Exception e) {
+
+		            System.out.println(e);
+		        }
+		        JRPrintServiceExporter exporter;
+		        PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+		        printRequestAttributeSet.add(MediaSizeName.NA_LETTER);
+		        printRequestAttributeSet.add(new Copies(1));
+
+		        // these are deprecated
+		        exporter = new JRPrintServiceExporter();
+		        exporter.setParameter(JRExporterParameter.JASPER_PRINT, reportFilled);
+		        exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE, printService[selectedService]);
+		        exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printService[selectedService].getAttributes());
+		        exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+		        exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+		        exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
+		        exporter.exportReport();
+
+		    } catch (JRException e) {
+		        e.printStackTrace();
+		    }
+		//}   
+		         
+		         
+		         
+		}
+	 
+public static void imprimirA2(){  
+		 
+		 
+		 
+		 
+		 try {
+
+
+		        //String report = JasperCompileManager.compileReportToFile(sourceFileName);
+
+
+		        //JasperPrint jasperPrint = JasperFillManager.fillReport(report, para, ds);
+
+
+		        PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+
+		        PageFormat pageFormat = PrinterJob.getPrinterJob().defaultPage();
+		        printerJob.defaultPage(pageFormat);
+
+		        int selectedService = 0;
+
+
+		        //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\BOMBA2\\EPSON LX-350 ESC/P (Copiar 1)", null));
+		        AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("EPSON LX-350 ESC/P (Copiar 1)", null));
 		        
 		        //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\CONTABILIDAD-PC\\EPSON LX-300+ /II (Copiar 1)", null));
 

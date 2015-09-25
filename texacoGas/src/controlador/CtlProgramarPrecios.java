@@ -143,6 +143,7 @@ public class CtlProgramarPrecios implements ActionListener, MouseListener, Chang
 				}
 			}
 			JOptionPane.showMessageDialog(view, "Se programaron los precios");
+			view.setVisible(false);
 			break;
 		}
 	}

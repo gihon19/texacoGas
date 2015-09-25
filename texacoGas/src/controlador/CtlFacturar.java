@@ -31,6 +31,7 @@ import modelo.Empleado;
 import modelo.Factura;
 import modelo.dao.FacturaDao;
 import view.ViewCambioPago;
+import view.ViewCargarVenderor;
 import view.ViewFacturar;
 import view.ViewListaArticulo;
 import view.ViewListaClientes;
@@ -117,6 +118,13 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 		String comando=e.getActionCommand();
 		//JOptionPane.showMessageDialog(view, "paso de celdas");
 		switch(comando){
+		
+		/*case "CREDITO":
+			view.getPanelDetalleVehiculo().setVisible(true);
+			break;
+		case "CONTADO":
+			view.getPanelDetalleVehiculo().setVisible(false);
+			break;*/
 		case "BUSCARARTICULO2":
 				if(myArticulo!=null){
 					//conseguir los precios del producto
@@ -168,9 +176,10 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 			
 			if(myCliente!=null){
 				this.view.getTxtNombrecliente().setText(myCliente.getNombre());
+				view.getTxtRtn().setText(myCliente.getRtn());
 			}else{
-				this.view.getTxtIdcliente().setText("");
-				this.view.getTxtNombrecliente().setText("");
+				this.view.getTxtIdcliente().setText("2001");
+				this.view.getTxtNombrecliente().setText("Consumidor final");
 				JOptionPane.showMessageDialog(view, "Cliente no encontrado");
 			}
 			
@@ -215,6 +224,7 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 			myCliente=new Cliente();
 			myCliente.setId(Integer.parseInt(this.view.getTxtIdcliente().getText()));
 			myCliente.setNombre(this.view.getTxtNombrecliente().getText());
+			myCliente.setRtn(view.getTxtRtn().getText());
 			
 		}
 		
@@ -228,12 +238,25 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 			myFactura.setEstadoPago(0);
 		}
 		
+		if(view.getTxtNoplaca().getText().trim().length()!=0){
+			myFactura.setPlacaVehiculo(view.getTxtNoplaca().getText());
+		}
+		if(view.getTxtModelo().getText().trim().length()!=0){
+			myFactura.setModeloVehiculo(view.getTxtModelo().getText());
+		}
+		if(view.getTxtKilometraje().getText().trim().length()!=0){
+			myFactura.setKilometrajeVehiculo(view.getTxtKilometraje().getText());
+		}
+		
 		myFactura.setCliente(myCliente);
 		myFactura.setDetalles(this.view.getModeloTabla().getDetalles());
 		myFactura.setFecha(facturaDao.getFechaSistema());
+		
 		//Se establece el vendedor seleccionado
-		Empleado emp= (Empleado) this.view .getCbxEmpleados().getSelectedItem();
-		myFactura.setVendedor(emp);
+		/*Empleado emp= (Empleado) this.view .getCbxEmpleados().getSelectedItem();
+		myFactura.setVendedor(emp);*/
+		
+		
 		//myArticulo.setImpuestoObj(imp);
 		//JOptionPane.showMessageDialog(view, myCliente);*/
 		
@@ -281,6 +304,7 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 		
 		
 		
+		
 			case TableModelEvent.UPDATE:
 				
 				//Se recoge el id de la fila marcada
@@ -307,14 +331,15 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 						//se estable en articulo en la tabla
 						this.view.getModeloTabla().setArticulo(myArticulo, row);
 						//se calcula los totales
-						calcularTotales();
+						//calcularTotales();
 						
 						
 						boolean toggle = false;
-					    boolean extend = false;
-					    this.view.getTableDetalle().changeSelection(row, 0, toggle, extend);
-					    this.view.getTableDetalle().changeSelection(row, colum, toggle, extend);
-					    this.view.getTableDetalle().addColumnSelectionInterval(3, 3);
+						boolean extend = false;
+						
+							
+						this.view.getTableDetalle().changeSelection(row,colum+7, toggle, extend);
+						this.view.getTableDetalle().requestFocus();
 					    
 					    
 					    
@@ -332,6 +357,7 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 						
 						// se vuelve a calcular los totales
 						calcularTotales();
+						
 					}
 					
 					
@@ -342,23 +368,27 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 				
 				//se cambia la cantidad en la tabla
 				if(colum==3){
+					//JOptionPane.showMessageDialog(view, "entro");
+					//se obtien la cantidad y el precio de compra por unidad
+					BigDecimal cantidad=view.getModeloTabla().getDetalle(row).getCantidad();
+					BigDecimal precioVenta= new BigDecimal(view.getModeloTabla().getDetalle(row).getArticulo().getPrecioVenta());
+					
+					BigDecimal total=cantidad.multiply(precioVenta);
+					
+					view.getModeloTabla().getDetalle(row).setTotal(total.setScale(0, BigDecimal.ROUND_HALF_EVEN));
 					
 					calcularTotales();
-					view.getTxtBuscar().requestFocusInWindow();
-					/*boolean toggle = false;
+					//this.view.getModeloTabla().agregarDetalle();
+					
+					boolean toggle = false;
 					boolean extend = false;
-					this.view.geTableDetalle().requestFocus();
 					
-					this.view.geTableDetalle().changeSelection(row,colum+1, toggle, extend);
-					
-				
-					this.view.getModeloTabla().agregarDetalle();
-					
-					
-					
-					this.view.geTableDetalle().requestFocus();
 						
-					this.view.geTableDetalle().changeSelection(row,colum+3, false, false);*/
+					this.view.getTableDetalle().changeSelection(row,colum+4, toggle, extend);
+					this.view.getTableDetalle().requestFocus();
+					
+					
+					
 				}
 				
 				//se agrego un descuento a la tabla
@@ -367,7 +397,39 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 					view.getTxtBuscar().requestFocusInWindow();
 					//JOptionPane.showMessageDialog(view, "Modifico el Descuento "+this.view.getModeloTabla().getDetalle(row).getDescuentoItem().setScale(2, BigDecimal.ROUND_HALF_EVEN).doubleValue());
 				}
-				
+				if(colum==7){
+					
+					BigDecimal total=view.getModeloTabla().getDetalle(row).getTotal();
+					BigDecimal precioVenta= new BigDecimal(view.getModeloTabla().getDetalle(row).getArticulo().getPrecioVenta());
+					//BigDecimal precio=new BigDecimal(view.getModeloTabla().getDetalle(row).getArticulo().getPrecioVenta());
+					BigDecimal cantidad=total.divide(precioVenta,2,BigDecimal.ROUND_HALF_EVEN);
+					
+					
+					view.getModeloTabla().getDetalle(row).setCantidad(cantidad);
+					this.view.getModeloTabla().agregarDetalle();
+					calcularTotales();
+					boolean toggle = false;
+					boolean extend = false;
+					//this.view.getTableDetalle().requestFocus();
+					//se agrega la nueva fila de la tabla
+					//this.view.getModelo().agregarDetalle();
+						
+					this.view.getTableDetalle().changeSelection(row+1,0, toggle, extend);
+					this.view.getTableDetalle().requestFocus();
+					
+					
+					/*calcularTotales();
+					//se agrega otra fila en la tabla
+					this.view.getModeloTabla().agregarDetalle();
+					boolean toggle = false;
+					boolean extend = false;
+					this.view.getTableDetalle().requestFocus();
+					//se agrega la nueva fila de la tabla
+					//this.view.getModelo().agregarDetalle();
+						
+					this.view.getTableDetalle().changeSelection(row+1,0, toggle, extend);*/
+				}
+				//JOptionPane.showMessageDialog(view, "se edito el total columna :"+colum);
 				//view.getTxtBuscar().requestFocusInWindow();
 			break;
 		}
@@ -408,7 +470,7 @@ public void calcularTotales(){
 				BigDecimal precioVenta= new BigDecimal(detalle.getArticulo().getPrecioVenta());
 				
 				//se calcula el total del item
-				BigDecimal totalItem=cantidad.multiply(precioVenta);
+				BigDecimal totalItem=detalle.getTotal();//cantidad.multiply(precioVenta);
 				
 				int desc=detalle.getDescuento();
 			
@@ -603,8 +665,54 @@ public void calcularTotal(DetalleFactura detalle){
 			}
 		}*/
 		
+		
 		//Recoger qué fila se ha pulsadao en la tabla
 		filaPulsada = this.view.getTableDetalle().getSelectedRow();
+		
+		//filaPulsada = this.view.getTableDetalle().getSelectedRow();
+		int columnaSelec=view.getTableDetalle().getSelectedColumn();
+		
+		
+		if(e.getComponent()==this.view.getTableDetalle()){
+			
+			
+			if(e.getKeyCode()==KeyEvent.VK_ENTER && !view.getTableDetalle().isEditing()){
+				
+				
+				
+						
+				if(view.getTableDetalle().getSelectedColumn()==7){
+					
+					//JOptionPane.showMessageDialog(view, "fila: "+filaPulsada+" , columna: "+columnaSelec+" , No filas:"+view.getModeloTabla().getRowCount());
+					//JOptionPane.showMessageDialog(view,"Enter en la tabla");
+					
+					if(view.getModeloTabla().getDetalle(filaPulsada).getTotal().doubleValue()>0){
+						this.view.getModeloTabla().agregarDetalle();
+						
+						//JOptionPane.showMessageDialog(view, "fila: "+filaPulsada+" , columna: "+columnaSelec+" , No filas:"+view.getModeloTabla().getRowCount());
+						
+						boolean toggle = false;
+						boolean extend = false;
+						
+							
+						this.view.getTableDetalle().changeSelection(filaPulsada,0, toggle, extend);
+						this.view.getTableDetalle().requestFocus();
+					}else{
+						view.getModeloTabla().eliminarDetalle(filaPulsada);
+						this.view.getModeloTabla().agregarDetalle();
+						
+						boolean toggle = false;
+						boolean extend = false;
+						
+							
+						this.view.getTableDetalle().changeSelection(view.getModeloTabla().getRowCount()-1,0, toggle, extend);
+						this.view.getTableDetalle().requestFocus();
+					}
+				}
+				
+			}
+		}
+		
 		
 		if(e.getKeyCode()==KeyEvent.VK_F1){
 			buscarArticulo();
@@ -623,13 +731,15 @@ public void calcularTotal(DetalleFactura detalle){
 							
 						}else
 						if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
-							salir();
+							//salir();
 						}else
 							if(e.getKeyCode()==KeyEvent.VK_DELETE){
 								 
 								 if(filaPulsada>=0){
 									 this.view.getModeloTabla().eliminarDetalle(filaPulsada);
 									 this.calcularTotales();
+									//se agrega la nueva fila de la tabla
+									this.view.getModeloTabla().agregarDetalle();
 								 }
 							}else
 								if(e.getKeyCode()==KeyEvent.VK_F6){
@@ -714,8 +824,16 @@ public void calcularTotal(DetalleFactura detalle){
 		
 		//Recoger qué fila se ha pulsadao en la tabla
 		filaPulsada = this.view.getTableDetalle().getSelectedRow();
+		
 		char caracter = e.getKeyChar();
 		
+		
+		
+		
+		if(e.getComponent()==this.view.getTxtNombrecliente()){
+			view.getTxtIdcliente().setText("-1");
+			
+		}
 		
 		//para quitar los simnos mas o numero que ingrese en la busqueda
 		if(e.getComponent()==this.view.getTxtBuscar()){
@@ -839,114 +957,142 @@ public void calcularTotal(DetalleFactura detalle){
 		//verificamos que se agregaron articulos a la factura
 		if(view.getModeloTabla().getRowCount()>1){
 			
+			ViewCargarVenderor viewVendedor=new ViewCargarVenderor(view);
+			CtlCargarVendedor ctlVendedor=new CtlCargarVendedor(viewVendedor,conexion);
 			
-			if(!view.getRdbtnCredito().isSelected()){
-		
-				//se muestra la vista para cobrar y introducir el cambio
-				ViewCambioPago viewPago=new ViewCambioPago(this.view);
-				CtlCambioPago ctlPago=new CtlCambioPago(viewPago,myFactura.getTotal());
-				//se muestra y ventana del cobro y se devuelve un resultado del cobro
-				boolean resulPago=ctlPago.pagar();
-				
-				//se procede a verificar si se cobro
-				if(resulPago)
-				{
-					//si la forma de pago fue en efectivo
-					if(ctlPago.getFormaPago()==1){
-						myFactura.setPago(ctlPago.getEfectivo());
-						myFactura.setCambio(ctlPago.getCambio());
-						myFactura.setTipoPago(1);
-					}
-					//si la forma de pago fue con tarjeta de credito o debito
-					if(ctlPago.getFormaPago()==2){
-						myFactura.setPago(myFactura.getTotal());
-						myFactura.setCambio(new BigDecimal(00));
-						myFactura.setTipoPago(2);
-						myFactura.setObservacion(ctlPago.getRefencia());
-					}
-					setFactura();
-					boolean resul=facturaDao.registrarFactura(myFactura);
-						
-					if(resul){
-						myFactura.setIdFactura(facturaDao.getIdFacturaGuardada());
-						
-							try {
-								/*this.view.setVisible(false);
-								this.view.dispose();*/
-								//AbstractJasperReports.createReportFactura( conexion.getPoolConexion().getConnection(), "Factura_Saint_Paul.jasper",myFactura.getIdFactura() );
-								AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 1, myFactura.getIdFactura());
-								//AbstractJasperReports.showViewer(view);
-								AbstractJasperReports.imprimierFactura();
-								AbstractJasperReports.imprimierFactura();
-								//myFactura=null;
-								setEmptyView();
-								
-								//si la view es de actualizacion al cobrar se cierra la view
-								if(this.tipoView==2){
-									myFactura=null;
-									view.setVisible(false);
-								}
-								//myFactura.
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						
-						
-					}else{
-						JOptionPane.showMessageDialog(view, "No se guardo la factura", "Error Base de Datos", JOptionPane.ERROR_MESSAGE);
-						this.view.setVisible(false);
-						this.view.dispose();
-					}//fin el if donde se guarda la factura
-					
-				}//fin de la ventana en cobro
+			boolean resulVendedor=ctlVendedor.cargarVendedor();
 			
-			}else{//si la factura es al contado se procede a guardar e imprimir 
-				setFactura();
+			if(resulVendedor)//verifica si ingreso el codigo del bombero
+			{
+				//se estable el vendedor en la myFactura
+				myFactura.setVendedor(ctlVendedor.getVendetor());
 				
-				
-				
-				boolean resul=facturaDao.registrarFactura(myFactura);
-				
-				
-				if(resul){
-					myFactura.setIdFactura(facturaDao.getIdFacturaGuardada());
+				//verifica que la factura sea al contado
+				if(!view.getRdbtnCredito().isSelected()){
 					
-						try {
-							/*this.view.setVisible(false);
-							this.view.dispose();*/
-							//AbstractJasperReports.createReportFactura( conexion.getPoolConexion().getConnection(), "Factura_Saint_Paul.jasper",myFactura.getIdFactura() );
-							AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 1, myFactura.getIdFactura());
-							AbstractJasperReports.showViewer(view);
-							//AbstractJasperReports.imprimierFactura();
-							//myFactura=null;
-							setEmptyView();
-							
-							//si la view es de actualizacion al cobrar se cierra la view
-							if(this.tipoView==2){
-								myFactura=null;
-								view.setVisible(false);
-							}
-							//myFactura.
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					
+			
+					//se muestra la vista para cobrar y introducir el cambio
+					ViewCambioPago viewPago=new ViewCambioPago(this.view);
+					CtlCambioPago ctlPago=new CtlCambioPago(viewPago,myFactura.getTotal());
+					//se muestra y ventana del cobro y se devuelve un resultado del cobro
+					boolean resulPago=ctlPago.pagar();
+					
+					//se procede a verificar si se cobro
+					if(resulPago)
+					{
+						//si la forma de pago fue en efectivo
+						if(ctlPago.getFormaPago()==1){
+							myFactura.setPago(ctlPago.getEfectivo());
+							myFactura.setCambio(ctlPago.getCambio());
+							myFactura.setTipoPago(1);
 						}
-					
-					
-				}else{
-					JOptionPane.showMessageDialog(view, "No se guardo la factura", "Error Base de Datos", JOptionPane.ERROR_MESSAGE);
-					this.view.setVisible(false);
-					this.view.dispose();
-				}//fin el if donde se guarda la factura
-			}
+						//si la forma de pago fue con tarjeta de credito o debito
+						if(ctlPago.getFormaPago()==2){
+							myFactura.setPago(myFactura.getTotal());
+							myFactura.setCambio(new BigDecimal(00));
+							myFactura.setTipoPago(2);
+							myFactura.setObservacion(ctlPago.getRefencia());
+						}
+						//se completa los datos para la factura
+						setFactura();
+						
+						//se registra la factura
+						boolean resul=facturaDao.registrarFactura(myFactura);
+							
+						if(resul){
+							myFactura.setIdFactura(facturaDao.getIdFacturaGuardada());
+							
+								try {
+									/*this.view.setVisible(false);
+									this.view.dispose();*/
+									//AbstractJasperReports.createReportFactura( conexion.getPoolConexion().getConnection(), "Factura_Saint_Paul.jasper",myFactura.getIdFactura() );
+									AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 1, myFactura.getIdFactura());
+									//AbstractJasperReports.showViewer(view);
+									AbstractJasperReports.imprimierFactura();
+									//AbstractJasperReports.imprimierFactura();
+									//myFactura=null;
+									setEmptyView();
+									
+									//si la view es de actualizacion al cobrar se cierra la view
+									if(this.tipoView==2){
+										myFactura=null;
+										view.setVisible(false);
+									}
+									//myFactura.
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							
+							
+						}else{
+							JOptionPane.showMessageDialog(view, "No se guardo la factura", "Error Base de Datos", JOptionPane.ERROR_MESSAGE);
+							this.view.setVisible(false);
+							this.view.dispose();
+						}//fin el if donde se guarda la factura
+						
+					}//fin de la ventana en cobro
 				
+				}else{//si la factura es al credito se procede a guardar e imprimir 
+					setFactura();
+					myFactura.setTipoPago(3);
 					
-		}//fin del if donde se verifica que hay articulos que facturar
-		else{
-			JOptionPane.showMessageDialog(view, "Para cobrar debe agregar articulos primero.");
+					BigDecimal saldo=this.myCliente.getSaldoCuenta();
+					BigDecimal limite=this.myCliente.getLimiteCredito();
+					BigDecimal nuevoSaldo=saldo.add(this.myFactura.getTotal());
+					
+					if(nuevoSaldo.doubleValue()>limite.doubleValue()){
+						JOptionPane.showMessageDialog(view, "El Cliente no tiene suficiente credito.");
+					}else{
+						//no se necesita el cambio porque es al credito
+						myFactura.setCambio(new BigDecimal(0));
+						//se registra la factura al credito
+						boolean resul=facturaDao.registrarFactura(myFactura);
+						
+						//si se facturo bien se muestra la factura a imprimir
+						if(resul){
+							myFactura.setIdFactura(facturaDao.getIdFacturaGuardada());
+							
+								try {
+									/*this.view.setVisible(false);
+									this.view.dispose();*/
+									//AbstractJasperReports.createReportFactura( conexion.getPoolConexion().getConnection(), "Factura_Saint_Paul.jasper",myFactura.getIdFactura() );
+									AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 6, myFactura.getIdFactura());
+									AbstractJasperReports.imprimirA2();
+									//AbstractJasperReports.showViewer(view);
+									//AbstractJasperReports.imprimierFactura();
+									//myFactura=null;
+									setEmptyView();
+									
+									//si la view es de actualizacion al cobrar se cierra la view
+									if(this.tipoView==2){
+										myFactura=null;
+										view.setVisible(false);
+									}
+									//myFactura.
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							
+							
+						}else{
+							JOptionPane.showMessageDialog(view, "No se guardo la factura", "Error Base de Datos", JOptionPane.ERROR_MESSAGE);
+							this.view.setVisible(false);
+							this.view.dispose();
+						}//fin el if donde se guarda la factura
+					}//fin del if donde se comprueba el limite de credito
+				}//fin del else para comprobar si es factura al contado
+					
+						
+			}//sin del if donde se pide el codigo del vendedor
+			
+			
 		}
-		
+		else{//fin del if donde se verifica que hay articulos que facturar
+				JOptionPane.showMessageDialog(view, "Para cobrar debe agregar articulos primero.");
+			}
 	}
 	private void buscarArticulo(){
 	
@@ -995,9 +1141,10 @@ public void calcularTotal(DetalleFactura detalle){
 		view.getTxtFechafactura().setText(facturaDao.getFechaSistema());
 		
 		//se estable un cliente generico para la factura
-		this.view.getTxtIdcliente().setText("1");;
+		this.view.getTxtIdcliente().setText("2001");;
 		this.view.getTxtNombrecliente().setText("Consumidor final");
-		
+		view.getRdbtnContado().setSelected(true);
+		//view.getPanelDetalleVehiculo().setVisible(false);
 		
 		this.myCliente=null;
 		
@@ -1021,16 +1168,18 @@ public void calcularTotal(DetalleFactura detalle){
 		
 		CtlClienteBuscar ctlBuscarCliente=new CtlClienteBuscar(viewListaCliente,conexion);
 		
-		myCliente=ctlBuscarCliente.buscarCliente(view);
+		boolean resulCliente=ctlBuscarCliente.buscarCliente(view);
 		//se comprueba si le regreso un articulo valido
-		if(myCliente.getNombre()!=null && myCliente.getId()!=-1){
+		if(resulCliente){
+			myCliente=ctlBuscarCliente.getCliente();
 			this.view.getTxtIdcliente().setText(""+myCliente.getId());;
 			this.view.getTxtNombrecliente().setText(myCliente.getNombre());
+			view.getTxtRtn().setText(myCliente.getRtn());
 		
 		}else{
 			JOptionPane.showMessageDialog(view, "No se encontro el cliente");
-			this.view.getTxtIdcliente().setText("1");;
-			this.view.getTxtNombrecliente().setText("Cliente Normal");
+			this.view.getTxtIdcliente().setText("2001");;
+			this.view.getTxtNombrecliente().setText("Consumidor final");
 		}
 		viewListaCliente.dispose();
 		ctlBuscarCliente=null;

@@ -26,6 +26,10 @@ public class Factura {
 	private Empleado vendedor=new Empleado();
 	private boolean deseaPagar=false;
 	private int estadoPago=0;
+	private String modeloVehiculo="NA";
+	private String placaVehiculo="NA";
+	private String kilometrajeVehiculo="NA";
+	
 	
 	public void setEstadoPago(int e){
 		estadoPago=e;
@@ -50,6 +54,25 @@ public class Factura {
 	}
 	public String getObservacion(){
 		return observacion;
+	}
+	
+	public void setModeloVehiculo(String o){
+		modeloVehiculo=o;
+	}
+	public String getModeloVehiculo(){
+		return this.modeloVehiculo;
+	}
+	public void setKilometrajeVehiculo(String o){
+		kilometrajeVehiculo=o;
+	}
+	public String getKilometrajeVehiculo(){
+		return this.kilometrajeVehiculo;
+	}
+	public void setPlacaVehiculo(String o){
+		placaVehiculo=o;
+	}
+	public String getPlacaVehiculo(){
+		return this.placaVehiculo;
 	}
 	
 	public int getTipoPago(){
