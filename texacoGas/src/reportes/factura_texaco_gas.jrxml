@@ -7,7 +7,7 @@
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="574"/>
+	<property name="ireport.y" value="382"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -20,46 +20,46 @@
 	</style>
 	<parameter name="numero_factura" class="java.lang.Integer"/>
 	<queryString>
-		<![CDATA[SELECT admin_tools. v_encabezado_factura.numero_factura,
-	admin_tools. v_encabezado_factura.fecha,
-	admin_tools. v_encabezado_factura.codigo_cliente,
-	admin_tools. v_encabezado_factura.nombre_cliente,
-	admin_tools. v_encabezado_factura.direccion,
-	admin_tools. v_encabezado_factura.telefono,
-	admin_tools. v_encabezado_factura.movil,
-	admin_tools. v_encabezado_factura.rtn,
-	admin_tools. v_encabezado_factura.subtotal,
-	admin_tools. v_encabezado_factura.impuesto,
-	admin_tools. v_encabezado_factura.total,
-	admin_tools. v_encabezado_factura.codigo,
-	admin_tools. v_encabezado_factura.isv18,
-	admin_tools. v_encabezado_factura.estado_factura,
-	admin_tools. v_encabezado_factura.usuario,
-	admin_tools. v_encabezado_factura.pago,
-	admin_tools. v_encabezado_factura.tipo_factura,
-	admin_tools. v_encabezado_factura.descuento,
-	admin_tools. v_detalle_factura.total_detalle,
-	admin_tools. v_detalle_factura.subtotal_detalle,
-	admin_tools. v_detalle_factura.descuento_detalle,
-	admin_tools. v_detalle_factura.impuesto_detalle,
-	admin_tools. v_detalle_factura.cantidad_detalle,
-	admin_tools. v_detalle_factura.precio_detalle,
-	admin_tools. v_detalle_factura.articulo,
-	admin_tools. v_detalle_factura.numero_factura_detalle,
-	admin_tools. v_encabezado_factura.cambio,
-	admin_tools. v_encabezado_factura.total_letras,
-	admin_tools. v_detalle_factura.codigo_articulo,
-	admin_tools. v_encabezado_factura.codigo_vendedor,
-	admin_tools. v_encabezado_factura.nombre_vendedor,
-	admin_tools. v_encabezado_factura.apellido_vendedor,
-	admin_tools. v_encabezado_factura.vehiculo_placa,
-	admin_tools. v_encabezado_factura.vehiculo_modelo,
-	admin_tools. v_encabezado_factura.vehiculo_kilometraje
-FROM admin_tools. v_encabezado_factura
-	INNER JOIN admin_tools. v_detalle_factura ON
-	 admin_tools. v_detalle_factura.numero_factura_detalle = admin_tools. v_encabezado_factura.numero_factura
+		<![CDATA[SELECT numero_factura,
+	fecha,
+	codigo_cliente,
+	nombre_cliente,
+	direccion,
+	telefono,
+	movil,
+	rtn,
+	subtotal,
+	impuesto,
+	total,
+	codigo,
+	isv18,
+	estado_factura,
+	usuario,
+	pago,
+	tipo_factura,
+	descuento,
+	total_detalle,
+	subtotal_detalle,
+	descuento_detalle,
+	impuesto_detalle,
+	cantidad_detalle,
+	precio_detalle,
+	articulo,
+	numero_factura_detalle,
+	cambio,
+	total_letras,
+	codigo_articulo,
+	codigo_vendedor,
+	nombre_vendedor,
+	apellido_vendedor,
+	vehiculo_placa,
+	vehiculo_modelo,
+	vehiculo_kilometraje
+FROM v_encabezado_factura
+	INNER JOIN  v_detalle_factura ON
+	 v_detalle_factura.numero_factura_detalle = v_encabezado_factura.numero_factura
 WHERE
-	 admin_tools. v_encabezado_factura.numero_factura = $P{numero_factura}]]>
+	 v_encabezado_factura.numero_factura = $P{numero_factura}]]>
 	</queryString>
 	<field name="numero_factura" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
@@ -115,7 +115,7 @@ WHERE
 	<field name="descuento" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="total_detalle" class="java.lang.String">
+	<field name="total_detalle" class="java.lang.Float">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
 	<field name="subtotal_detalle" class="java.lang.Float">
@@ -238,7 +238,7 @@ WHERE
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA["001-001-01-"+$F{numero_factura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["000-004-01-"+$F{numero_factura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="39" y="178" width="90" height="13" uuid="9728e7a6-4f41-4354-a5e8-0e638e21fa3d"/>
@@ -280,7 +280,7 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[001-004-01-00000001 al 001-004-01-00040000]]></text>
+				<text><![CDATA[000-004-01-00000001 al 000-004-01-00040000]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="147" width="178" height="13" uuid="8548b205-9ac7-41fb-8163-3f9339082bdf"/>

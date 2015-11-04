@@ -210,6 +210,12 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 		case "PENDIENTES":
 			this.showPendientes();
 			break;
+		case "CREDITO":
+			view.getTxtRtn().setEditable(false);
+			break;
+		case "CONTADO":
+			view.getTxtRtn().setEditable(true);
+			break;
 		
 		}
 		
@@ -1010,7 +1016,7 @@ public void calcularTotal(DetalleFactura detalle){
 									AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 1, myFactura.getIdFactura());
 									//AbstractJasperReports.showViewer(view);
 									AbstractJasperReports.imprimierFactura();
-									//AbstractJasperReports.imprimierFactura();
+									
 									//myFactura=null;
 									setEmptyView();
 									
@@ -1061,7 +1067,7 @@ public void calcularTotal(DetalleFactura detalle){
 									AbstractJasperReports.createReport(conexion.getPoolConexion().getConnection(), 6, myFactura.getIdFactura());
 									AbstractJasperReports.imprimirA2();
 									//AbstractJasperReports.showViewer(view);
-									//AbstractJasperReports.imprimierFactura();
+									
 									//myFactura=null;
 									setEmptyView();
 									
@@ -1144,6 +1150,7 @@ public void calcularTotal(DetalleFactura detalle){
 		this.view.getTxtIdcliente().setText("2001");;
 		this.view.getTxtNombrecliente().setText("Consumidor final");
 		view.getRdbtnContado().setSelected(true);
+		view.getTxtRtn().setEditable(true);
 		//view.getPanelDetalleVehiculo().setVisible(false);
 		
 		this.myCliente=null;
@@ -1151,12 +1158,19 @@ public void calcularTotal(DetalleFactura detalle){
 		this.view.getTxtArticulo().setText("");
 		this.view.getTxtBuscar().setText("");
 		this.view.getTxtDescuento().setText("");
+		this.view.getTxtKilometraje().setText("");
+		this.view.getTxtModelo().setText("");
+		this.view.getTxtNoplaca().setText("");
 		this.view.getTxtImpuesto().setText("0.00");
 		this.view.getTxtImpuesto18().setText("0.00");
 		this.view.getTxtPrecio().setText("0.00");
 		this.view.getTxtSubtotal().setText("0.00");
 		this.view.getTxtTotal().setText("0.00");
 		this.myFactura.setObservacion("");
+		this.myFactura.setKilometrajeVehiculo("");
+		this.myFactura.setModeloVehiculo("");
+		this.myFactura.setPlacaVehiculo("");
+		
 		
 		//se estable el focus de la view en la caja de texto buscar
 		this.view.getTxtBuscar().requestFocusInWindow();

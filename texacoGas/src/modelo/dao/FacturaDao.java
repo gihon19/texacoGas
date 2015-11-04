@@ -414,7 +414,7 @@ public class FacturaDao {
 				Factura unaFactura=new Factura();
 				existe=true;
 				unaFactura.setIdFactura(res.getInt("numero_factura"));
-				Cliente unCliente=myClienteDao.buscarCliente(res.getInt("codigo_cliente"));
+				Cliente unCliente= new Cliente();//myClienteDao.buscarCliente(res.getInt("codigo_cliente"));
 				
 				unaFactura.setCliente(unCliente);
 				
