@@ -19,6 +19,7 @@ import view.ViewFacturar;
 import view.ViewFacturas;
 import view.ViewListaArticulo;
 import view.ViewListaClientes;
+import view.ViewListaEmpleados;
 import view.ViewListaFactura;
 import view.ViewListaFacturasCompra;
 import view.ViewListaMarca;
@@ -192,6 +193,24 @@ public class CtlMenuPrincipal implements ActionListener {
 				viewCrearUsuario.dispose();
 				viewCrearUsuario=null;
 				ctlCrearUsuario=null;
+				break;
+				
+case "EMPLEADOS":
+				
+				ViewListaEmpleados viewEmpleados=new ViewListaEmpleados(view);
+				CtlEmpleadosLista ctlListaEmpleados=new CtlEmpleadosLista(viewEmpleados,conexion);
+				
+				viewEmpleados.dispose();
+				viewEmpleados=null;
+				ctlListaEmpleados=null;
+				
+				
+					/*ViewCrearEmpleado viewCrearEmpleado=new ViewCrearEmpleado(view);
+					CtlEmpleado ctlCrearEmpleado=new CtlEmpleado(viewCrearEmpleado, conexion);
+					ctlCrearEmpleado.agregarEmpleado();
+					viewCrearEmpleado.dispose();
+					viewCrearEmpleado=null;
+					ctlCrearEmpleado=null;*/
 				break;
 		}
 		

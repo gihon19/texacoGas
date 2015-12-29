@@ -70,7 +70,8 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 		myEmpleadoDao=new EmpleadoDao(conexion);
 		preciosDao=new PrecioArticuloDao(conexion);
 		this.setEmptyView();
-		cargarComboBox();
+		view.getTxtNombrecliente().requestFocusInWindow();
+		//cargarComboBox();
 		/*view.getModeloTabla().agregarDetalle();
 		myFactura=new Factura();
 		myArticuloDao=new ArticuloDao(conexion);
@@ -177,6 +178,7 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 			if(myCliente!=null){
 				this.view.getTxtNombrecliente().setText(myCliente.getNombre());
 				view.getTxtRtn().setText(myCliente.getRtn());
+				view.getTxtModelo().requestFocusInWindow();
 			}else{
 				this.view.getTxtIdcliente().setText("2001");
 				this.view.getTxtNombrecliente().setText("Consumidor final");
@@ -211,14 +213,35 @@ public class CtlFacturar  implements ActionListener, MouseListener, TableModelLi
 			this.showPendientes();
 			break;
 		case "CREDITO":
-			view.getTxtRtn().setEditable(false);
+			setCredito();
 			break;
 		case "CONTADO":
-			view.getTxtRtn().setEditable(true);
+			setContado();
 			break;
+			
+		case "SELEC":
+			this.view.getTableDetalle().changeSelection(0,0, false, false);
+			this.view.getTableDetalle().requestFocus();
+			break;
+			
 		
 		}
 		
+	}
+	
+	
+	private void setContado(){
+		setEmptyView();
+		view.getTxtRtn().setEditable(true);
+		view.getTxtNombrecliente().requestFocusInWindow();
+	}
+	private void setCredito(){
+		setEmptyView();
+		view.getRdbtnCredito().setSelected(true);
+		view.getTxtRtn().setEditable(false);
+		view.getTxtIdcliente().setText("");
+		view.getTxtNombrecliente().setText("");
+	 	view.getTxtIdcliente().requestFocusInWindow();
 	}
 	
 
@@ -733,8 +756,8 @@ public void calcularTotal(DetalleFactura detalle){
 						guardar();
 					}else
 						if(e.getKeyCode()==KeyEvent.VK_F5){
-							showPendientes();
-							
+							view.getRdbtnContado().setSelected(true);
+							this.setContado();
 						}else
 						if(e.getKeyCode()==KeyEvent.VK_ESCAPE){
 							//salir();
@@ -749,7 +772,8 @@ public void calcularTotal(DetalleFactura detalle){
 								 }
 							}else
 								if(e.getKeyCode()==KeyEvent.VK_F6){
-									cierreCaja();
+									view.getRdbtnCredito().setSelected(true);
+									this.setCredito();
 								}else
 									if(e.getKeyCode()==KeyEvent.VK_F7){
 										actualizar();
@@ -836,8 +860,10 @@ public void calcularTotal(DetalleFactura detalle){
 		
 		
 		
-		if(e.getComponent()==this.view.getTxtNombrecliente()){
+		if(e.getComponent()==this.view.getTxtNombrecliente()&& e.getKeyCode()!=KeyEvent.VK_F5 && e.getKeyCode()!=KeyEvent.VK_F6){
 			view.getTxtIdcliente().setText("-1");
+			view.getRdbtnContado().setSelected(true);
+			view.getTxtRtn().setEditable(true);
 			
 		}
 		
@@ -1173,7 +1199,7 @@ public void calcularTotal(DetalleFactura detalle){
 		
 		
 		//se estable el focus de la view en la caja de texto buscar
-		this.view.getTxtBuscar().requestFocusInWindow();
+		view.getTxtNombrecliente().requestFocusInWindow();
 		
 	}
 	private void buscarCliente(){

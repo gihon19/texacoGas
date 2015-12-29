@@ -50,6 +50,7 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
 
 public class ViewFacturar extends JDialog {
 	private JTable tableDetalle;
@@ -159,14 +160,14 @@ public class ViewFacturar extends JDialog {
 		btnCerrar.setBounds(10, 396, 158, 38);
 		panelAcciones.add(btnCerrar);
 		
-		btnCierreCaja = new JButton("F6 Cierre");
+		btnCierreCaja = new JButton("Cierre");
 		btnCierreCaja.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCierreCaja.setIcon(new ImageIcon(ViewFacturar.class.getResource("/view/recursos/caja.png")));
 		btnCierreCaja.setBounds(10, 334, 158, 38);
 		btnCierreCaja.setEnabled(false);
 		panelAcciones.add(btnCierreCaja);
 		
-		btnPendientes = new JButton("F5 Pendientes");
+		btnPendientes = new JButton("Pendientes");
 		btnPendientes.setIcon(new ImageIcon(ViewFacturar.class.getResource("/view/recursos/lista.png")));
 		btnPendientes.setHorizontalAlignment(SwingConstants.LEFT);
 		btnPendientes.setEnabled(false);
@@ -204,6 +205,11 @@ public class ViewFacturar extends JDialog {
 		panelBuscar2.add(lblModelo);
 		
 		txtModelo = new JTextField();
+		txtModelo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtNoplaca.requestFocusInWindow();
+			}
+		});
 		txtModelo.setBounds(157, 24, 118, 20);
 		panelBuscar2.add(txtModelo);
 		txtModelo.setColumns(10);
@@ -213,6 +219,11 @@ public class ViewFacturar extends JDialog {
 		panelBuscar2.add(lblPlacaNo);
 		
 		txtNoplaca = new JTextField();
+		txtNoplaca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtKilometraje.requestFocusInWindow();
+			}
+		});
 		txtNoplaca.setBounds(304, 24, 86, 20);
 		panelBuscar2.add(txtNoplaca);
 		txtNoplaca.setColumns(10);
@@ -276,6 +287,11 @@ public class ViewFacturar extends JDialog {
 		txtIdcliente.setColumns(10);
 		
 		txtNombrecliente = new JTextField();
+		txtNombrecliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtRtn.requestFocusInWindow();
+			}
+		});
 		txtNombrecliente.setToolTipText("Nombre Cliente");
 		txtNombrecliente.setBounds(187, 44, 214, 29);
 		panelDatosFactura.add(txtNombrecliente);
@@ -299,12 +315,12 @@ public class ViewFacturar extends JDialog {
 		lblNombreCliente.setBounds(187, 23, 104, 14);
 		panelDatosFactura.add(lblNombreCliente);
 		
-		lblContado = new JLabel("Contado");
-		lblContado.setBounds(640, 23, 49, 14);
+		lblContado = new JLabel("F5 Contado");
+		lblContado.setBounds(640, 23, 68, 14);
 		panelDatosFactura.add(lblContado);
 		
-		lblCredito = new JLabel("Credito");
-		lblCredito.setBounds(718, 23, 46, 14);
+		lblCredito = new JLabel("F6 Credito");
+		lblCredito.setBounds(718, 23, 62, 14);
 		panelDatosFactura.add(lblCredito);
 		
 		JLabel lblVendedor = new JLabel("Vendedor");
@@ -314,7 +330,7 @@ public class ViewFacturar extends JDialog {
 		
 		cbxEmpleados = new JComboBox();
 		this.modeloEmpleado=new CbxTmEmpleado();
-		cbxEmpleados.setModel(modeloEmpleado);//comentar para moder ver la vista de diseño
+		//cbxEmpleados.setModel(modeloEmpleado);//comentar para moder ver la vista de diseño
 		cbxEmpleados.setBounds(581, 48, 199, 20);
 		cbxEmpleados.setVisible(false);
 		panelDatosFactura.add(cbxEmpleados);
@@ -324,6 +340,11 @@ public class ViewFacturar extends JDialog {
 		panelDatosFactura.add(lblRtn);
 		
 		txtRtn = new JTextField();
+		txtRtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtModelo.requestFocusInWindow();
+			}
+		});
 		txtRtn.setBounds(419, 44, 177, 29);
 		panelDatosFactura.add(txtRtn);
 		txtRtn.setColumns(10);
@@ -590,13 +611,20 @@ public class ViewFacturar extends JDialog {
 		this.btnActualizar.addActionListener(c);
 		this.btnActualizar.setActionCommand("ACTUALIZAR");
 		
-		this.rdbtnContado.addKeyListener(c);
-		this.rdbtnCredito.addKeyListener(c);
-		this.txtDescuento.addKeyListener(c);
-		this.txtImpuesto.addKeyListener(c);
-		this.txtSubtotal.addKeyListener(c);
-		this.txtTotal.addKeyListener(c);
+		txtKilometraje.addActionListener(c);
+		txtKilometraje.setActionCommand("SELEC");
+		
+		txtRtn.addKeyListener(c);
+		txtKilometraje.addKeyListener(c);
+		rdbtnContado.addKeyListener(c);
+		rdbtnCredito.addKeyListener(c);
+		txtDescuento.addKeyListener(c);
+		txtImpuesto.addKeyListener(c);
+		txtSubtotal.addKeyListener(c);
+		txtTotal.addKeyListener(c);
 		txtBuscar.addKeyListener(c);
+		txtModelo.addKeyListener(c);
+		txtNoplaca.addKeyListener(c);
 		//txtBuscar.
 		txtArticulo.addKeyListener(c);
 		txtPrecio.addKeyListener(c);

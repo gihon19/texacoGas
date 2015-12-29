@@ -306,10 +306,10 @@ public static void imprimirA2(){
 		       // AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\BOMBA2\\EPSON LX-350 ESC/P (Copiar 1)", null));
 		        
 		        //bomba2
-		       AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("EPSON LX-350 ESC/P", null));
+		       //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("EPSON LX-350 ESC/P", null));
 		        
 		        //bomba1
-		        //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("EPSON LQ-590 ESC/P2", null));
+		        AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("EPSON LQ-590 ESC/P2", null));
 		        
 		        //AttributeSet attributeSet = new HashPrintServiceAttributeSet(new PrinterName("\\\\CONTABILIDAD-PC\\EPSON LX-300+ /II (Copiar 1)", null));
 

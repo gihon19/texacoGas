@@ -36,6 +36,7 @@ public class CtlCliente implements ActionListener,WindowListener {
 		
 	}
 	private void getCliente(){
+		myCliente.setId(Integer.parseInt(view.getTxtCodigo().getText()));
 		myCliente.setNombre(view.getTxtNombre().getText());
 		myCliente.setDireccion(view.getTxtDireccion().getText());
 		myCliente.setTelefono(view.getTxtTelefono().getText());

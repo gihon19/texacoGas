@@ -47,6 +47,8 @@ public class ViewMenuPrincipal extends JFrame {
 	private JMenuItem mntmPagosClientes;
 	private JMenuItem mntmListaPagos;
 	private JMenuItem mntmProgramarPrecios;
+
+	private JMenuItem mntmEmpleados;
 	
 	public ViewMenuPrincipal() {
 		setTitle("AdminTools");
@@ -60,6 +62,9 @@ public class ViewMenuPrincipal extends JFrame {
 		
 		mntmUsuarios = new JMenuItem("Usuarios");
 		mnArchivo.add(mntmUsuarios);
+		
+		mntmEmpleados = new JMenuItem("Empleados");
+		mnArchivo.add(mntmEmpleados);
 		
 		mntmSalir = new JMenuItem("Salir");
 		mnArchivo.add(mntmSalir);
@@ -206,6 +211,9 @@ public class ViewMenuPrincipal extends JFrame {
 		
 		mntmProgramarPrecios.addActionListener(c);
 		mntmProgramarPrecios.setActionCommand("PROGRAMARPRECIOS");
+		
+		mntmEmpleados.addActionListener(c);
+		mntmEmpleados.setActionCommand("EMPLEADOS");
 		
 	}
 	public JLabel getLblUserName(){

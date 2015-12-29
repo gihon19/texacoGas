@@ -7,7 +7,15 @@ import javax.swing.JTextField;
 import view.botones.BotonActualizar;
 import view.botones.BotonCancelar;
 import view.botones.BotonGuardar;
+import view.rendes.PanelPadre;
 import controlador.CtlCliente;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 
 public class ViewCrearCliente extends JDialog{
 	private JTextField txtNombre;
@@ -19,90 +27,114 @@ public class ViewCrearCliente extends JDialog{
 	private BotonCancelar btnCancelar;
 	private BotonActualizar btnActualizar;
 	private BotonGuardar btnGuardar;
-	private JTextField txtLimitecredito;
+	private JTextField txtLimiteCredito;
+	private JLabel lblCodigo;
+	private JTextField txtCodigo;
 	
 	public ViewCrearCliente() {
+		
+	
+	
+		
 		setTitle("Crear Cliente");
 		
-		this.setSize(451,359);
+		this.setSize(365,494);
 		getContentPane().setLayout(null);
 		
+		JPanel JplPrincipal = new PanelPadre();
+		JplPrincipal.setBounds(0, 0, 359, 465);
+		getContentPane().add(JplPrincipal);
+		JplPrincipal.setLayout(null);
+		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(21, 11, 60, 14);
-		getContentPane().add(lblNombre);
+		lblNombre.setBounds(31, 54, 60, 14);
+		JplPrincipal.add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(116, 8, 286, 20);
-		getContentPane().add(txtNombre);
+		txtNombre.setBounds(31, 72, 311, 32);
+		JplPrincipal.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		JLabel lblDireccion = new JLabel("Direccion:");
-		lblDireccion.setBounds(21, 51, 64, 14);
-		getContentPane().add(lblDireccion);
+		lblDireccion.setBounds(31, 108, 64, 14);
+		JplPrincipal.add(lblDireccion);
 		
 		txtDireccion = new JTextField();
-		txtDireccion.setBounds(116, 48, 286, 20);
-		getContentPane().add(txtDireccion);
+		txtDireccion.setBounds(31, 126, 311, 32);
+		JplPrincipal.add(txtDireccion);
 		txtDireccion.setColumns(10);
 		
 		JLabel lblTelefono = new JLabel("Telefono:");
-		lblTelefono.setBounds(21, 94, 60, 14);
-		getContentPane().add(lblTelefono);
+		lblTelefono.setBounds(31, 162, 60, 14);
+		JplPrincipal.add(lblTelefono);
 		
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(116, 91, 286, 20);
-		getContentPane().add(txtTelefono);
+		txtTelefono.setBounds(31, 180, 311, 32);
+		JplPrincipal.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
 		JLabel lblMovil = new JLabel("Movil:");
-		lblMovil.setBounds(21, 131, 64, 14);
-		getContentPane().add(lblMovil);
+		lblMovil.setBounds(31, 216, 64, 14);
+		JplPrincipal.add(lblMovil);
 		
 		txtMovil = new JTextField();
-		txtMovil.setBounds(116, 128, 286, 20);
-		getContentPane().add(txtMovil);
+		txtMovil.setBounds(31, 234, 311, 32);
+		JplPrincipal.add(txtMovil);
 		txtMovil.setColumns(10);
 		
 		JLabel lblRtn = new JLabel("RTN:");
-		lblRtn.setBounds(21, 175, 60, 14);
-		getContentPane().add(lblRtn);
+		lblRtn.setBounds(31, 270, 60, 14);
+		JplPrincipal.add(lblRtn);
 		
 		txtRtn = new JTextField();
-		txtRtn.setBounds(116, 172, 286, 20);
-		getContentPane().add(txtRtn);
+		txtRtn.setBounds(31, 288, 311, 32);
+		JplPrincipal.add(txtRtn);
 		txtRtn.setColumns(10);
 		
 		// botones de accion
 		btnCancelar = new BotonCancelar();
-		btnCancelar.setLocation(280, 264);
-		getContentPane().add(btnCancelar);
+		btnCancelar.setLocation(193, 409);
+		JplPrincipal.add(btnCancelar);
 		
-		btnGuardar = new BotonGuardar();	
-		btnGuardar.setLocation(52, 264);
-		getContentPane().add(btnGuardar);
+		btnGuardar = new BotonGuardar();
+		btnGuardar.setLocation(31, 409);
+		JplPrincipal.add(btnGuardar);
 		
 		btnActualizar=new BotonActualizar();
-		btnActualizar.setLocation(52, 264);
+		btnActualizar.setLocation(31, 409);
+		JplPrincipal.add(btnActualizar);
+		
+		JLabel lblLimiteDeCredito = new JLabel("Limite de credito");
+		lblLimiteDeCredito.setBounds(31, 331, 121, 14);
+		JplPrincipal.add(lblLimiteDeCredito);
+		
+		txtLimiteCredito = new JTextField();
+		txtLimiteCredito.setColumns(10);
+		txtLimiteCredito.setBounds(31, 349, 311, 32);
+		JplPrincipal.add(txtLimiteCredito);
+		
+		lblCodigo = new JLabel("Codigo:");
+		lblCodigo.setBounds(31, 0, 60, 14);
+		JplPrincipal.add(lblCodigo);
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setColumns(10);
+		txtCodigo.setBounds(31, 18, 311, 32);
+		JplPrincipal.add(txtCodigo);
 		btnActualizar.setVisible(false);
-		getContentPane().add(btnActualizar);
 		
-		JLabel lblLimiteCredito = new JLabel("Limite Credito:");
-		lblLimiteCredito.setBounds(21, 208, 84, 14);
-		getContentPane().add(lblLimiteCredito);
+		setResizable(false);
 		
-		txtLimitecredito = new JTextField();
-		txtLimitecredito.setEnabled(false);
-		txtLimitecredito.setBounds(116, 205, 286, 20);
-		getContentPane().add(txtLimitecredito);
-		txtLimitecredito.setColumns(10);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		
-	}
-	public JTextField getTxtLimitecredito(){
-		return txtLimitecredito;
 	}
 	public JTextField getTxtNombre(){
 		return txtNombre;
+	}
+	public JTextField getTxtCodigo(){
+		return txtCodigo;
 	}
 	public  JTextField getTxtDireccion(){
 		return  txtDireccion;
@@ -138,5 +170,9 @@ public class ViewCrearCliente extends JDialog{
 		this.btnActualizar.setVisible(true);
 		this.btnGuardar.setVisible(false);
 		
+	}
+	public JTextField getTxtLimitecredito() {
+		// TODO Auto-generated method stub
+		return txtLimiteCredito;
 	}
 }

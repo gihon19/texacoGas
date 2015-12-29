@@ -204,7 +204,7 @@ public class FacturaDao {
 			
 			//si el cliente en escrito por el bombero
 			if(myFactura.getCliente().getId()<0){
-				myClienteDao.registrarCliente(myFactura.getCliente());
+				myClienteDao.registrarClienteContado(myFactura.getCliente());
 				myFactura.getCliente().setId(myClienteDao.getIdClienteRegistrado());
 			}
 			
@@ -381,7 +381,7 @@ public class FacturaDao {
 		
         Connection con = null;
         
-    	String sql="SELECT "
+    	/*String sql="SELECT "
 				+ "encabezado_factura.numero_factura, "
 				+ "DATE_FORMAT(encabezado_factura.fecha, '%d/%m/%Y') as fecha,"
 				+ " encabezado_factura.subtotal, "
@@ -397,8 +397,10 @@ public class FacturaDao {
 				+ "encabezado_factura.usuario,"
 				+ "encabezado_factura.estado_factura, "
 				+ "encabezado_factura.agrega_kardex "
-				+ " FROM encabezado_factura ORDER BY encabezado_factura.numero_factura DESC";
+				+ " FROM encabezado_factura ORDER BY encabezado_factura.numero_factura DESC";*/
         //Statement stmt = null;
+        
+        String sql="select * from v_encabezado_factura order by numero_factura desc";
        	List<Factura> facturas=new ArrayList<Factura>();
 		
 		ResultSet res=null;
@@ -414,8 +416,10 @@ public class FacturaDao {
 				Factura unaFactura=new Factura();
 				existe=true;
 				unaFactura.setIdFactura(res.getInt("numero_factura"));
-				Cliente unCliente= new Cliente();//myClienteDao.buscarCliente(res.getInt("codigo_cliente"));
+				Cliente unCliente=new Cliente();//myClienteDao.buscarCliente(res.getInt("codigo_cliente"));
 				
+				unCliente.setNombre(res.getString("nombre_cliente"));
+				unCliente.setId(res.getInt("codigo_cliente"));
 				unaFactura.setCliente(unCliente);
 				
 				unaFactura.setFecha(res.getString("fecha"));
@@ -426,10 +430,10 @@ public class FacturaDao {
 				unaFactura.setTotalDescuento(res.getBigDecimal("descuento"));
 				
 				unaFactura.setEstado(res.getString("estado_factura"));
-				unaFactura.setTipoFactura(res.getInt("tipo_factura"));
+				unaFactura.setTipoFactura(res.getInt("id_tipo_factura"));
 				unaFactura.setAgregadoAkardex(res.getInt("agrega_kardex"));
 				
-				unaFactura.setDetalles(detallesDao.getDetallesFactura(res.getInt("numero_factura")));
+				//unaFactura.setDetalles(detallesDao.getDetallesFactura(res.getInt("numero_factura")));
 				
 				
 				facturas.add(unaFactura);
