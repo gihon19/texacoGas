@@ -7,7 +7,7 @@
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="382"/>
+	<property name="ireport.y" value="96"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -185,25 +185,18 @@ WHERE
 				<text><![CDATA[Factura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="15" width="178" height="12" uuid="62ab06e3-8503-4626-af69-a4bfa871b17c"/>
+				<reportElement x="1" y="15" width="178" height="19" uuid="62ab06e3-8503-4626-af69-a4bfa871b17c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Olanchito, Yoro, Carretera Salida a Saba]]></text>
+				<text><![CDATA[Olanchito, Yoro, Col. Mariñan, CA 13, frente al semafaro salida a Saba]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="4" width="178" height="13" uuid="3c2bd69a-9200-41f6-af53-6a56715225f5"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[TEXACO OLANCHITO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="1" y="24" width="178" height="12" uuid="9d982688-d65f-4bf8-9278-8e0aa6805123"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
-				</textElement>
-				<text><![CDATA[Propietario Rafael Armando Paz]]></text>
+				<text><![CDATA[TEXACO OLANCHITO S DE R.L. DE C.V.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="44" width="178" height="14" uuid="a1709503-4ace-42cf-9af1-2a4b0fbe7a50"/>
@@ -236,9 +229,9 @@ WHERE
 			<textField>
 				<reportElement x="59" y="191" width="100" height="13" uuid="a96c5764-304b-421e-89fa-6d5deb067890"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA["000-004-01-"+$F{numero_factura}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["000-002-01-"+$F{numero_factura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="39" y="178" width="90" height="13" uuid="9728e7a6-4f41-4354-a5e8-0e638e21fa3d"/>
@@ -259,14 +252,14 @@ WHERE
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
-				<text><![CDATA[RTN 18071940003468]]></text>
+				<text><![CDATA[RTN 18079016871603]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="92" width="173" height="14" uuid="0de9c8fc-4af1-4677-97ca-e1f082a6a3f4"/>
 				<textElement>
 					<font fontName="Arial" size="9"/>
 				</textElement>
-				<text><![CDATA[Fecha Limite de Emision: 05/09/2016]]></text>
+				<text><![CDATA[Fecha Limite de Emision: 12/03/2017]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="107" width="93" height="13" uuid="c1a601b0-bf4f-4f46-a4aa-a3a37c719c5e"/>
@@ -280,14 +273,14 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[000-004-01-00000001 al 000-004-01-00040000]]></text>
+				<text><![CDATA[000-002-01-00000001 al 000-002-01-00100000]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="147" width="178" height="13" uuid="8548b205-9ac7-41fb-8163-3f9339082bdf"/>
 				<textElement>
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[158B0-279338-E24FB7-98B66D-9E6A68-29]]></text>
+				<text><![CDATA[EF3805-34411F-6D4AA3-0C8B84-A78FC3-E7]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="134" width="93" height="13" uuid="f8830005-bbec-4183-b041-feb64333305a"/>
@@ -341,7 +334,7 @@ WHERE
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[joserigo72@yahoo.com]]></text>
+				<text><![CDATA[texacoolanchito@yahoo.com]]></text>
 			</staticText>
 		</band>
 	</title>

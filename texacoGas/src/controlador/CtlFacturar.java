@@ -1177,6 +1177,7 @@ public void calcularTotal(DetalleFactura detalle){
 		this.view.getTxtNombrecliente().setText("Consumidor final");
 		view.getRdbtnContado().setSelected(true);
 		view.getTxtRtn().setEditable(true);
+		view.getTxtRtn().setText("");
 		//view.getPanelDetalleVehiculo().setVisible(false);
 		
 		this.myCliente=null;
@@ -1196,6 +1197,7 @@ public void calcularTotal(DetalleFactura detalle){
 		this.myFactura.setKilometrajeVehiculo("");
 		this.myFactura.setModeloVehiculo("");
 		this.myFactura.setPlacaVehiculo("");
+		
 		
 		
 		//se estable el focus de la view en la caja de texto buscar

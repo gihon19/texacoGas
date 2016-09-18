@@ -26,6 +26,7 @@ public class Factura {
 	private Empleado vendedor=new Empleado();
 	private boolean deseaPagar=false;
 	private int estadoPago=0;
+	
 	private String modeloVehiculo="NA";
 	private String placaVehiculo="NA";
 	private String kilometrajeVehiculo="NA";
